@@ -4,7 +4,7 @@ package lnpay
 
 // "wallet_created" webhook payload
 // https://docs.lnpay.co/webhooks/getting-started#payloads
-type WalletCreatedWebhookEvent struct {
+type WebhookWalletCreated struct {
 	CreatedAt int    `json:"created_at"`
 	ID        string `json:"id"`
 	Event     Event  `json:"event"`
@@ -15,7 +15,7 @@ type WalletCreatedWebhookEvent struct {
 
 // "wallet_send" webhook payload
 // https://docs.lnpay.co/webhooks/getting-started#payloads
-type WalletSendWebhookEvent struct {
+type WebhookWalletSend struct {
 	CreatedAt int    `json:"created_at"`
 	ID        string `json:"id"`
 	Event     Event  `json:"event"`
@@ -26,7 +26,7 @@ type WalletSendWebhookEvent struct {
 
 // "wallet_receive" webhook payload
 // https://docs.lnpay.co/webhooks/getting-started#payloads
-type WalletInternalTransferWebhookEvent struct {
+type WebhookWalletInternalTransfer struct {
 	ID        string `json:"id"`
 	CreatedAt int    `json:"created_at"`
 	Event     Event  `json:"event"`
@@ -37,7 +37,7 @@ type WalletInternalTransferWebhookEvent struct {
 
 // "wallet_transfer_IN/OUT" webhook payload
 // https://docs.lnpay.co/webhooks/getting-started#payloads
-type WalletReceiveWebhookEvent struct {
+type WebhookWalletReceive struct {
 	CreatedAt int    `json:"created_at"`
 	ID        string `json:"id"`
 	Event     Event  `json:"event"`
@@ -48,7 +48,7 @@ type WalletReceiveWebhookEvent struct {
 
 // "paywall_created" webhook payload
 // https://docs.lnpay.co/webhooks/getting-started#paywalls
-type PaywallCreatedWebhookEvent struct {
+type WebhookPaywallCreated struct {
 	ID        string `json:"id"`
 	CreatedAt int    `json:"created_at"`
 	Event     Event  `json:"event"`
@@ -59,7 +59,7 @@ type PaywallCreatedWebhookEvent struct {
 
 // "paywall_conversion" webhook payload
 // https://docs.lnpay.co/webhooks/getting-started#paywalls
-type PaywallConversionWebhookEvent struct {
+type WebhookPaywallConversion struct {
 	ID        string `json:"id"`
 	CreatedAt int    `json:"created_at"`
 	Event     Event  `json:"event"`
@@ -69,7 +69,7 @@ type PaywallConversionWebhookEvent struct {
 	} `json:"data"`
 }
 
-// primary types
+// Primary types
 
 type Wal struct {
 	ID         string      `json:"id"`
