@@ -25,26 +25,26 @@ func NewClient(key string) *Client {
 }
 
 // Transaction
-func (c *Client) Transaction(lntxId string) (lnTx *LnTx, err error) {
+func (c *Client) Transaction(lntxId string) (lnTx LnTx, err error) {
 	resp, err := req.Get(BASE_URL + "/lntx/" + lntxId)
 	if err != nil {
 		return
 	}
-	err = resp.ToJSON(lnTx)
+	err = resp.ToJSON(&lnTx)
 	return
 }
 
 // CreateWallet creates a new wallet with a given descriptive label.
 // It will return the wallet object which you can use to create invoices and payments.
 // https://docs.lnpay.co/wallet/create-wallet
-func (c *Client) CreateWallet(label string) (wal *Wallet, err error) {
+func (c *Client) CreateWallet(label string) (wal Wallet, err error) {
 	resp, err := req.Post(BASE_URL+"/wallet", c.header, req.BodyJSON(struct {
 		UserLabel string `json:"user_label"`
 	}{label}))
 	if err != nil {
 		return
 	}
-	err = resp.ToJSON(wal)
+	err = resp.ToJSON(&wal)
 	return
 }
 
@@ -67,12 +67,12 @@ type Wallet struct {
 
 // Details returns basic information about a wallet, such as its id, label or balance.
 // https://docs.lnpay.co/wallet/get-balance
-func (w *Wallet) Details() (wal *Wal, err error) {
+func (w *Wallet) Details() (wal Wal, err error) {
 	resp, err := req.Get(w.BASE_URL)
 	if err != nil {
 		return
 	}
-	err = resp.ToJSON(wal)
+	err = resp.ToJSON(&wal)
 	return
 }
 
@@ -102,12 +102,12 @@ type InvoiceParams struct {
 
 // Invoice creates an invoice associated with this wallet.
 // https://docs.lnpay.co/wallet/generate-invoice
-func (w *Wallet) Invoice(params InvoiceParams) (lntx *LnTx, err error) {
+func (w *Wallet) Invoice(params InvoiceParams) (lntx LnTx, err error) {
 	resp, err := req.Post(w.BASE_URL+"/invoice", req.BodyJSON(&params))
 	if err != nil {
 		return
 	}
-	err = resp.ToJSON(&lntx)
+	err = resp.ToJSON(lntx)
 	return
 }
 
@@ -121,12 +121,12 @@ type PayParams struct {
 
 // Pay pays a given invoice with funds from the wallet.
 // https://docs.lnpay.co/wallet/pay-invoice
-func (w *Wallet) Pay(params PayParams) (wtx *Wtx, err error) {
+func (w *Wallet) Pay(params PayParams) (wtx Wtx, err error) {
 	resp, err := req.Post(w.BASE_URL+"/withdraw", req.BodyJSON(&params))
 	if err != nil {
 		return
 	}
-	err = resp.ToJSON(wtx)
+	err = resp.ToJSON(&wtx)
 	return
 }
 
@@ -138,11 +138,11 @@ type TransferParams struct {
 
 // Transfer transfers between two lnpay.co wallets.
 // https://docs.lnpay.co/wallet/transfers-between-wallets
-func (w *Wallet) Transfer(params TransferParams) (wtx *Wtx, err error) {
+func (w *Wallet) Transfer(params TransferParams) (wtx Wtx, err error) {
 	resp, err := req.Post(w.BASE_URL+"/transfer", req.BodyJSON(&params))
 	if err != nil {
 		return
 	}
-	err = resp.ToJSON(wtx)
+	err = resp.ToJSON(&wtx)
 	return
 }
