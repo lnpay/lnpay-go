@@ -107,7 +107,7 @@ func (w *Wallet) Invoice(params InvoiceParams) (lntx LnTx, err error) {
 	if err != nil {
 		return
 	}
-	err = resp.ToJSON(lntx)
+	err = resp.ToJSON(&lntx)
 	return
 }
 
