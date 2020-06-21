@@ -93,14 +93,13 @@ type Wal struct {
 }
 
 type Wtx struct {
-	NumSatoshis int                    `json:"num_satoshis"`
-	UserLabel   string                 `json:"user_label"`
-	CreatedAt   int                    `json:"created_at"`
-	ID          string                 `json:"id"`
-	Wal         Wal                    `json:"wal"`
-	WtxType     WtxType                `json:"wtxType"`
-	LnTx        LnTx                   `json:"lnTx"`
-	PassThru    map[string]interface{} `json:"passThru"`
+	UserLabel string                 `json:"user_label"`
+	CreatedAt int                    `json:"created_at"`
+	ID        string                 `json:"id"`
+	Wal       Wal                    `json:"wal"`
+	WtxType   WtxType                `json:"wtxType"`
+	LnTx      LnTx                   `json:"lnTx"`
+	PassThru  map[string]interface{} `json:"passThru"`
 }
 
 type LnTx struct {
