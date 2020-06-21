@@ -2,7 +2,6 @@ package lnpay
 
 import (
 	"github.com/imroc/req"
-	"github.com/kr/pretty"
 )
 
 const (
@@ -29,7 +28,7 @@ func NewClient(key string) *Client {
 
 // Transaction
 func (c *Client) Transaction(lntxId string) (lnTx LnTx, err error) {
-	resp, err := req.Get(BASE_URL + "/lntx/" + lntxId)
+	resp, err := req.Get(BASE_URL+"/lntx/"+lntxId, c.header)
 	if err != nil {
 		return
 	}
@@ -87,15 +86,12 @@ type Wallet struct {
 // Details returns basic information about a wallet, such as its id, label or balance.
 // https://docs.lnpay.co/wallet/get-balance
 func (w *Wallet) Details() (wal Wal, err error) {
-	resp, err := req.Get(w.BASE_URL)
+	resp, err := req.Get(w.BASE_URL, w.header)
 	if err != nil {
 		return
 	}
 
 	if resp.Response().StatusCode >= 300 {
-		pretty.Log(resp.Request().Header)
-		pretty.Log(resp.Request().URL)
-
 		var reqErr Error
 		resp.ToJSON(&reqErr)
 		err = reqErr
@@ -109,7 +105,7 @@ func (w *Wallet) Details() (wal Wal, err error) {
 // Transactions returns a list of the transactions associated with the wallet.
 // https://docs.lnpay.co/wallet/get-transactions
 func (w *Wallet) Transactions() (txs []Wtx, err error) {
-	resp, err := req.Get(w.BASE_URL + "/transactions")
+	resp, err := req.Get(w.BASE_URL+"/transactions", w.header)
 	if err != nil {
 		return
 	}
@@ -141,7 +137,7 @@ type InvoiceParams struct {
 // Invoice creates an invoice associated with this wallet.
 // https://docs.lnpay.co/wallet/generate-invoice
 func (w *Wallet) Invoice(params InvoiceParams) (lntx LnTx, err error) {
-	resp, err := req.Post(w.BASE_URL+"/invoice", req.BodyJSON(&params))
+	resp, err := req.Post(w.BASE_URL+"/invoice", w.header, req.BodyJSON(&params))
 	if err != nil {
 		return
 	}
@@ -168,7 +164,7 @@ type PayParams struct {
 // Pay pays a given invoice with funds from the wallet.
 // https://docs.lnpay.co/wallet/pay-invoice
 func (w *Wallet) Pay(params PayParams) (wtx Wtx, err error) {
-	resp, err := req.Post(w.BASE_URL+"/withdraw", req.BodyJSON(&params))
+	resp, err := req.Post(w.BASE_URL+"/withdraw", w.header, req.BodyJSON(&params))
 	if err != nil {
 		return
 	}
@@ -193,7 +189,7 @@ type TransferParams struct {
 // Transfer transfers between two lnpay.co wallets.
 // https://docs.lnpay.co/wallet/transfers-between-wallets
 func (w *Wallet) Transfer(params TransferParams) (wtx Wtx, err error) {
-	resp, err := req.Post(w.BASE_URL+"/transfer", req.BodyJSON(&params))
+	resp, err := req.Post(w.BASE_URL+"/transfer", w.header, req.BodyJSON(&params))
 	if err != nil {
 		return
 	}
