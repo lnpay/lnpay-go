@@ -1,6 +1,9 @@
 package lnpay
 
-import "github.com/imroc/req"
+import (
+	"github.com/imroc/req"
+	"github.com/kr/pretty"
+)
 
 const (
 	BASE_URL = "https://lnpay.co/v1"
@@ -30,6 +33,14 @@ func (c *Client) Transaction(lntxId string) (lnTx LnTx, err error) {
 	if err != nil {
 		return
 	}
+
+	if resp.Response().StatusCode >= 300 {
+		var reqErr Error
+		resp.ToJSON(&reqErr)
+		err = reqErr
+		return
+	}
+
 	err = resp.ToJSON(&lnTx)
 	return
 }
@@ -44,6 +55,14 @@ func (c *Client) CreateWallet(label string) (wal Wallet, err error) {
 	if err != nil {
 		return
 	}
+
+	if resp.Response().StatusCode >= 300 {
+		var reqErr Error
+		resp.ToJSON(&reqErr)
+		err = reqErr
+		return
+	}
+
 	err = resp.ToJSON(&wal)
 	return
 }
@@ -72,6 +91,17 @@ func (w *Wallet) Details() (wal Wal, err error) {
 	if err != nil {
 		return
 	}
+
+	if resp.Response().StatusCode >= 300 {
+		pretty.Log(resp.Request().Header)
+		pretty.Log(resp.Request().URL)
+
+		var reqErr Error
+		resp.ToJSON(&reqErr)
+		err = reqErr
+		return
+	}
+
 	err = resp.ToJSON(&wal)
 	return
 }
@@ -83,6 +113,14 @@ func (w *Wallet) Transactions() (txs []Wtx, err error) {
 	if err != nil {
 		return
 	}
+
+	if resp.Response().StatusCode >= 300 {
+		var reqErr Error
+		resp.ToJSON(&reqErr)
+		err = reqErr
+		return
+	}
+
 	err = resp.ToJSON(&txs)
 	return
 }
@@ -107,6 +145,14 @@ func (w *Wallet) Invoice(params InvoiceParams) (lntx LnTx, err error) {
 	if err != nil {
 		return
 	}
+
+	if resp.Response().StatusCode >= 300 {
+		var reqErr Error
+		resp.ToJSON(&reqErr)
+		err = reqErr
+		return
+	}
+
 	err = resp.ToJSON(&lntx)
 	return
 }
@@ -126,6 +172,14 @@ func (w *Wallet) Pay(params PayParams) (wtx Wtx, err error) {
 	if err != nil {
 		return
 	}
+
+	if resp.Response().StatusCode >= 300 {
+		var reqErr Error
+		resp.ToJSON(&reqErr)
+		err = reqErr
+		return
+	}
+
 	err = resp.ToJSON(&wtx)
 	return
 }
@@ -143,6 +197,14 @@ func (w *Wallet) Transfer(params TransferParams) (wtx Wtx, err error) {
 	if err != nil {
 		return
 	}
+
+	if resp.Response().StatusCode >= 300 {
+		var reqErr Error
+		resp.ToJSON(&reqErr)
+		err = reqErr
+		return
+	}
+
 	err = resp.ToJSON(&wtx)
 	return
 }

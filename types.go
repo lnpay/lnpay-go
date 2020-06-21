@@ -71,6 +71,17 @@ type WebhookPaywallConversion struct {
 
 // Primary types
 
+type Error struct {
+	Name    string `json:"name"`
+	Message string `json:"message"`
+	Code    int    `json:"code"`
+	Status  int    `json:"status"`
+}
+
+func (err Error) Error() string {
+	return err.Message
+}
+
 type Wal struct {
 	ID         string      `json:"id"`
 	UserLabel  string      `json:"user_label"`
