@@ -2,6 +2,8 @@ package lnpay
 
 import (
 	"github.com/imroc/req"
+	"reflect"
+	"time"
 )
 
 const (
@@ -203,4 +205,50 @@ func (w *Wallet) Transfer(params TransferParams) (wtx Wtx, err error) {
 
 	err = resp.ToJSON(&wtx)
 	return
+}
+
+// Update the receiver transaction using lntx api.
+// It will compare the receiver tx with the updated tx and replace the receiver,
+// if any changes are detected.
+func (tx *LnTx) Update(client *Client) (updated bool, err error) {
+	lntx, err := client.Transaction(tx.ID)
+	if err != nil {
+		return false, err
+	}
+	if !tx.eq(lntx) {
+		*tx = lntx
+		return true, nil
+	}
+	return false, nil
+}
+
+// Expired checks if lntx is expired
+func (tx *LnTx) Expired() bool {
+	if tx.ExpiresAt < int(time.Now().Unix()) {
+		return true
+	}
+	return false
+}
+
+// IsSettled checks if receiver lntx is settled yet.
+// It will only update the tx if currently not settled.
+func (tx *LnTx) IsSettled(client *Client) bool {
+	if tx.Settled == 0 {
+		updated, err := tx.Update(client)
+		if err != nil {
+			return false
+		}
+		if updated {
+			// check if updated transaction settled
+			if tx.Settled == 1 {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// eq will compare the receiver transaction with another transaction
+func (tx *LnTx) eq(lntx LnTx) (updated bool) {
+	return reflect.DeepEqual(tx, &lntx)
 }
