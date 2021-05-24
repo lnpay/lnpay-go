@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	BASE_URL = "https://lnpay.co/v1"
+	BASE_URL = "https://api.lnpay.co/v1"
 	TEST_KEY = "pak_O0iUMxk8kK_qUzkT4YKFvp1ZsUtp"
 )
 
