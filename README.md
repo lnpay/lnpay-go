@@ -5,7 +5,7 @@ Golang API wrapper for https://lnpay.co/.
 ## Install
 
 ```
-go get github.com/fiatjaf/lnpay
+go get github.com/fiatjaf/lnpay-go
 ```
 
 ## Usage
