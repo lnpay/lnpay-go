@@ -1,4 +1,4 @@
-module github.com/fiatjaf/lnpay-go
+module github.com/lnpay/lnpay-go
 
 go 1.14
 
