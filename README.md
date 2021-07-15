@@ -1,11 +1,11 @@
-# lnpay [![](https://img.shields.io/badge/api-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/fiatjaf/lnpay-go)
+# lnpay [![](https://img.shields.io/badge/api-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/lnpay/lnpay-go)
 
 Golang API wrapper for https://lnpay.co/.
 
 ## Install
 
 ```
-go get github.com/fiatjaf/lnpay-go
+go get github.com/lnpay/lnpay-go
 ```
 
 ## Usage
